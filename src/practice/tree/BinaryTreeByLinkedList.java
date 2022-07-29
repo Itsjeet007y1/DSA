@@ -75,6 +75,7 @@ public class BinaryTreeByLinkedList {
 					queue.add(presentNode.getRight());
 			}
 		} // end of loop
+		System.out.println("Value-"+value+" is not found in Tree !");
 	} // end of search method
 	
 	// Inserting a new node in Binary tree
@@ -106,6 +107,71 @@ public class BinaryTreeByLinkedList {
 		} // end of loop
 	} // end of search method
 	
+	// Deletion of a value from Binary tree
+	void deleteNodeOfBinaryTree(int value) {
+		Queue<BinaryNode> queue = new LinkedList<BinaryNode>();
+		queue.add(root);
+		while(!queue.isEmpty()) {
+			BinaryNode presentNode = queue.remove();
+			// If node is found then copy deepest node here and delete deepest node
+			if(presentNode.getValue() == value) { 
+				presentNode.setValue(getDeepestNode().getValue());
+				deleteDeepestNode();
+				System.out.println("Deleted the node.");
+				return;
+			} else {
+				if(presentNode.getLeft() != null) {
+					queue.add(presentNode.getLeft());
+				} if(presentNode.getRight() != null) {
+					queue.add(presentNode.getRight());
+				}
+			}
+		}// end of while loop
+		System.out.println("Did not find the node.");
+	}// end of method
+	
+	// Get last node of last level of binary tree
+	public BinaryNode getDeepestNode() {
+		// Make an empty queue. Queue is an Interface and LinkedList is a class
+		Queue<BinaryNode> queue = new LinkedList<BinaryNode>();
+		queue.add(root);
+		BinaryNode presentNode = null;
+		while(!queue.isEmpty()) {
+			presentNode = queue.remove();
+			if(presentNode.getLeft() != null)
+				queue.add(presentNode.getLeft());
+			if(presentNode.getRight() != null) 
+				queue.add(presentNode.getRight());
+		}
+		return presentNode;
+	} // end of method
+	
+	// Delete Deepest Node
+	public void deleteDeepestNode() {
+		Queue<BinaryNode> queue = new LinkedList<BinaryNode>();
+		queue.add(root);
+		BinaryNode previousNode, presentNode = null;
+		while(!queue.isEmpty()) {
+			previousNode = presentNode; //Unnecessary
+			presentNode = queue.remove();
+			if(presentNode.getLeft() == null) {
+				previousNode.setRight(null);
+				return;
+			} else if(presentNode.getRight() == null) {
+				presentNode.setLeft(null);
+				return;
+			}
+			queue.add(presentNode.getLeft());
+			queue.add(presentNode.getRight());
+		}// end of while
+	} // end of method
+	
+	// Delete Tree
+	void deleteTree() {
+		root = null;
+		System.out.println("Binary Tree has been deleted successfully");
+	}
+	
 	public static void main(String[] args) {
 		BinaryTreeByLinkedList tree = new BinaryTreeByLinkedList();
 		//Insert 10 nodes in the tree
@@ -133,5 +199,26 @@ public class BinaryTreeByLinkedList {
 		
 		System.out.println("\nSearching node 50 in the tree...");
 		tree.search(50);
+		
+		System.out.println("\nSearching node 500 in the tree...");
+		tree.search(500);
+		
+		System.out.println("\nDeleting node having value-5 in the tree...");
+		tree.deleteNodeOfBinaryTree(5);
+		
+		System.out.println("\nDeleting node having value-50 in the tree...");
+		tree.deleteNodeOfBinaryTree(50);
+		tree.levelOrderTraversal();
+		
+		System.out.println("\n\nDeleting node having value-10 in the tree...");
+		tree.deleteNodeOfBinaryTree(10);
+		tree.levelOrderTraversal();
+		
+		System.out.println("\n\nDeleting node having value-80 in the tree...");
+		tree.deleteNodeOfBinaryTree(80);
+		tree.levelOrderTraversal();
+		
+		System.out.println("Deleting the entire Tree");
+		tree.deleteTree();
 	}
 }
