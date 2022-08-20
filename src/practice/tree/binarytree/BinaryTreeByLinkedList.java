@@ -1,4 +1,4 @@
-package practice.tree;
+package practice.tree.binarytree;
 
 import java.util.LinkedList;
 import java.util.*;

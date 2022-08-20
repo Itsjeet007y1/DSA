@@ -1,4 +1,4 @@
-package practice.tree;
+package practice.tree.binarytree;
 
 public class BinaryNode {
 
